@@ -28,6 +28,20 @@
                                     <constraint firstAttribute="width" constant="80" id="ZRe-2g-Shp"/>
                                 </constraints>
                                 <state key="normal" image="solarAddBtn copy"/>
+                                <connections>
+                                    <action selector="add:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nxX-aE-BP7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBA-sU-7LE">
+                                <rect key="frame" x="327" y="619" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="CJS-wD-IHS"/>
+                                    <constraint firstAttribute="width" constant="40" id="hoS-Sx-V6z"/>
+                                </constraints>
+                                <state key="normal" image="resetBtn"/>
+                                <connections>
+                                    <action selector="reset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w6q-Me-b3f"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -36,7 +50,9 @@
                             <constraint firstItem="8i5-oB-nvI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="A9I-BP-c8r"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xpo-hC-KGc" secondAttribute="bottom" constant="20" id="TND-8m-rAc"/>
                             <constraint firstItem="8i5-oB-nvI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="WC2-5d-EJc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yBA-sU-7LE" secondAttribute="bottom" constant="8" id="alL-si-Fnl"/>
                             <constraint firstItem="8i5-oB-nvI" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="mcO-ZY-Rb8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yBA-sU-7LE" secondAttribute="trailing" constant="8" id="vGA-Qz-xHC"/>
                             <constraint firstItem="8i5-oB-nvI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wyA-hX-qnB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -51,6 +67,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="resetBtn" width="234" height="234"/>
         <image name="solarAddBtn copy" width="400" height="400"/>
     </resources>
 </document>
