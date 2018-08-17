@@ -25,41 +25,69 @@ class ViewController: UIViewController {
     
     
     @IBAction func add(_ sender: Any) {
-        self.greyEarth()
+        self.greyEarthAndMoon()
+        //self.colorEarthAndMoon()
         
     }
     
     
     
-    func greyEarth() {
-        let earth = SCNNode()
-        earth.geometry = SCNSphere(radius: 0.2)
-        earth.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "Earth daylight grey")
-        earth.geometry?.firstMaterial?.specular.contents = #imageLiteral(resourceName: "Earth Specular")
-        earth.geometry?.firstMaterial?.normal.contents = #imageLiteral(resourceName: "Earth Normal")
-        earth.position = SCNVector3(0, 0, -1)
+    func greyEarthAndMoon() {
+        let earth = planet(geometry: SCNSphere(radius: 0.3), diffuse: #imageLiteral(resourceName: "Earth daylight grey"), specular: #imageLiteral(resourceName: "Earth Specular"), emission: nil, normal: #imageLiteral(resourceName: "Earth Normal"), position: SCNVector3(0, 0, -1.2))
+        let earthClouds = planet(geometry: SCNSphere(radius: 0.306), diffuse: #imageLiteral(resourceName: "Earth Clouds grey"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, 0))
+        let MoonAndEarthBarycentre = planet(geometry: SCNSphere(radius: 0.004), diffuse: nil, specular: nil, emission: nil, normal: nil, position: SCNVector3(0.22, 0, 0))
+        let moon = planet(geometry: SCNSphere(radius: 0.0818), diffuse: #imageLiteral(resourceName: "Moon grey"), specular: nil, emission: nil, normal: nil, position: SCNVector3(1.8, 0, 0))
+        
+        let rotateEarthAction = rotation(time: 60, y: CGFloat(360.degreesToRadians))
+        let rotateCloudsAction = rotation(time: 300, y: CGFloat(-360.degreesToRadians))
+        let barycentreRotateAction = rotation(time: 163, y: CGFloat(360.degreesToRadians))
+        
+        earth.runAction(rotateEarthAction)
+        earthClouds.runAction(rotateCloudsAction)
+        MoonAndEarthBarycentre.runAction(barycentreRotateAction)
+        
         self.sceneView.scene.rootNode.addChildNode(earth)
-        
-        let rotateEarthAction = SCNAction.rotateBy(x: 0, y: CGFloat(360.degreesToRadians), z: 0, duration: 32)
-        let foreverRotateEarth = SCNAction.repeatForever(rotateEarthAction)
-        earth.runAction(foreverRotateEarth)
-        
-        let earthClouds = SCNNode()
-        earthClouds.geometry=SCNSphere(radius: 0.206)
-        earthClouds.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "Earth Clouds")
-        earthClouds.position = SCNVector3(0, 0, 0)
-        
-        let rotateCloudsAction = SCNAction.rotateBy(x: 0, y: CGFloat(360.degreesToRadians), z: 0, duration: 96)
-        
-        let foreverRotateClouds = SCNAction.repeatForever(rotateCloudsAction)
-        earthClouds.runAction(foreverRotateClouds)
-        
         earth.addChildNode(earthClouds)
+        earth.addChildNode(MoonAndEarthBarycentre)
+        MoonAndEarthBarycentre.addChildNode(moon)
     }
     
-
-    @IBAction func reset(_ sender: Any) {
-        self.restartTheSession()
+    
+    func colorEarthAndMoon() {
+        let earthInColor = planet(geometry: SCNSphere(radius: 0.3), diffuse: #imageLiteral(resourceName: "Earth daylight color"), specular: #imageLiteral(resourceName: "Earth Specular"), emission: nil, normal: #imageLiteral(resourceName: "Earth Normal"), position: SCNVector3(0, 0, -1.2))
+        let earthInColorClouds = planet(geometry: SCNSphere(radius: 0.306), diffuse: #imageLiteral(resourceName: "Earth Clouds color"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, 0))
+        let MoonAndEarthBarycentre = planet(geometry: SCNSphere(radius: 0.004), diffuse: nil, specular: nil, emission: nil, normal: nil, position: SCNVector3(0.22, 0, 0))
+        let moon = planet(geometry: SCNSphere(radius: 0.0818), diffuse: #imageLiteral(resourceName: "Moon color"), specular: nil, emission: nil, normal: nil, position: SCNVector3(1.8, 0, 0))
+        
+        let rotateEarthAction = rotation(time: 60, y: CGFloat(360.degreesToRadians))
+        let rotateCloudsAction = rotation(time: 300, y: CGFloat(-360.degreesToRadians))
+        let barycentreRotateAction = rotation(time: 163, y: CGFloat(360.degreesToRadians))
+        
+        earthInColor.runAction(rotateEarthAction)
+        earthInColorClouds.runAction(rotateCloudsAction)
+        MoonAndEarthBarycentre.runAction(barycentreRotateAction)
+        
+        self.sceneView.scene.rootNode.addChildNode(earthInColor)
+        earthInColor.addChildNode(earthInColorClouds)
+        earthInColor.addChildNode(MoonAndEarthBarycentre)
+        MoonAndEarthBarycentre.addChildNode(moon)
+    }
+    
+    
+    func rotation(time: TimeInterval, y: CGFloat) -> SCNAction {
+        let rotateAction = SCNAction.rotateBy(x: 0, y: y, z: 0, duration: time)
+        let foreverAction = SCNAction.repeatForever(rotateAction)
+        return foreverAction
+    }
+    
+    
+    func planet(geometry: SCNGeometry, diffuse: UIImage?, specular: UIImage?, emission: UIImage?, normal: UIImage?, position: SCNVector3) -> SCNNode {
+        let planet = SCNNode(geometry: geometry)
+        planet.geometry?.firstMaterial?.diffuse.contents = diffuse
+        planet.geometry?.firstMaterial?.specular.contents = specular
+        planet.geometry?.firstMaterial?.normal.contents = normal
+        planet.position = position
+        return planet
     }
     
     
@@ -69,6 +97,11 @@ class ViewController: UIViewController {
             node.removeFromParentNode()
         }
         self.sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+    }
+
+    
+    @IBAction func reset(_ sender: Any) {
+        self.restartTheSession()
     }
 
 }
