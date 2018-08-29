@@ -33,23 +33,64 @@ class ViewController: UIViewController {
     
     
     func greyEarthAndMoon() {
-        let earth = planet(geometry: SCNSphere(radius: 0.3), diffuse: #imageLiteral(resourceName: "Earth daylight grey"), specular: #imageLiteral(resourceName: "Earth Specular"), emission: nil, normal: #imageLiteral(resourceName: "Earth Normal"), position: SCNVector3(0, 0, -1.2))
-        let earthClouds = planet(geometry: SCNSphere(radius: 0.306), diffuse: #imageLiteral(resourceName: "Earth Clouds grey"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, 0))
-        let MoonAndEarthBarycentre = planet(geometry: SCNSphere(radius: 0.004), diffuse: nil, specular: nil, emission: nil, normal: nil, position: SCNVector3(0.22, 0, 0))
-        let moon = planet(geometry: SCNSphere(radius: 0.0818), diffuse: #imageLiteral(resourceName: "Moon grey"), specular: nil, emission: nil, normal: nil, position: SCNVector3(1.8, 0, 0))
+        let mercuryParent = SCNNode()
+        let venusParent = SCNNode()
+        let earthParent = SCNNode()
+        let marsParent = SCNNode()
         
+        mercuryParent.position = solarSystemCenter()
+        venusParent.position = solarSystemCenter()
+        earthParent.position = solarSystemCenter()
+        marsParent.position = solarSystemCenter()
+        
+        let sun = planet(geometry: SCNSphere(radius: 0.35), diffuse: #imageLiteral(resourceName: "Sun Grey 1 layer"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, -2))
+        let sun3dEffect = planet(geometry: SCNSphere(radius: 0.355), diffuse: #imageLiteral(resourceName: "Sun Grey 2 layer"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, 0))
+        let mercury = planet(geometry: SCNSphere(radius: 0.023), diffuse: #imageLiteral(resourceName: "Mercury Color"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, -0.45))
+        let venus = planet(geometry: SCNSphere(radius: 0.05), diffuse: #imageLiteral(resourceName: "Venus Grey"), specular: nil, emission: #imageLiteral(resourceName: "Venus Emission"), normal: nil, position: SCNVector3(0, 0, -0.6))
+        let earth = planet(geometry: SCNSphere(radius: 0.08), diffuse: #imageLiteral(resourceName: "Earth daylight grey"), specular: #imageLiteral(resourceName: "Earth Specular"), emission: nil, normal: #imageLiteral(resourceName: "Earth Normal"), position: SCNVector3(0, 0, -1.2))
+        let earthClouds = planet(geometry: SCNSphere(radius: 0.083), diffuse: #imageLiteral(resourceName: "Earth Clouds grey"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, 0))
+        let MoonAndEarthBarycentre = planet(geometry: SCNSphere(radius: 0.002), diffuse: nil, specular: nil, emission: nil, normal: nil, position: SCNVector3(0.07, 0, 0))
+        let moon = planet(geometry: SCNSphere(radius: 0.023), diffuse: #imageLiteral(resourceName: "Moon grey"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0.2, 0, 0))
+        let mars = planet(geometry: SCNSphere(radius: 0.06), diffuse: #imageLiteral(resourceName: "Mars Greish"), specular: nil, emission: nil, normal: nil, position: SCNVector3(0, 0, -2))
+        
+        let rotateSunAction = rotation(time: 300, y: CGFloat(360.degreesToRadians))
+        let rotateMercuryParent = rotation(time: 30, y: CGFloat(360.degreesToRadians))
+        let rotateMercuryAction = rotation(time: 300, y: CGFloat(360.degreesToRadians))
+        let rotateVenusParent = rotation(time: 45, y: CGFloat(360.degreesToRadians))
+        let rotateVenusAction = rotation(time: 200, y: CGFloat(360.degreesToRadians))
+        let rotateEarthParent = rotation(time: 60, y: CGFloat(360.degreesToRadians))
         let rotateEarthAction = rotation(time: 60, y: CGFloat(360.degreesToRadians))
         let rotateCloudsAction = rotation(time: 300, y: CGFloat(-360.degreesToRadians))
         let barycentreRotateAction = rotation(time: 163, y: CGFloat(360.degreesToRadians))
+        let rotateMarsParent = rotation(time: 115, y: CGFloat(360.degreesToRadians))
+        let rotateMarsAction = rotation(time: 70, y: CGFloat(360.degreesToRadians))
         
+        sun.runAction(rotateSunAction)
+        mercuryParent.runAction(rotateMercuryParent)
+        mercury.runAction(rotateMercuryAction)
+        venusParent.runAction(rotateVenusParent)
+        venus.runAction(rotateVenusAction)
+        earthParent.runAction(rotateEarthParent)
         earth.runAction(rotateEarthAction)
         earthClouds.runAction(rotateCloudsAction)
         MoonAndEarthBarycentre.runAction(barycentreRotateAction)
+        marsParent.runAction(rotateMarsParent)
+        mars.runAction(rotateMarsAction)
         
-        self.sceneView.scene.rootNode.addChildNode(earth)
+        self.sceneView.scene.rootNode.addChildNode(sun)
+        self.sceneView.scene.rootNode.addChildNode(mercuryParent)
+        self.sceneView.scene.rootNode.addChildNode(venusParent)
+        self.sceneView.scene.rootNode.addChildNode(earthParent)
+        self.sceneView.scene.rootNode.addChildNode(marsParent)
+        
+        sun.addChildNode(sun3dEffect)
+        mercuryParent.addChildNode(mercury)
+        venusParent.addChildNode(venus)
+        earthParent.addChildNode(earth)
         earth.addChildNode(earthClouds)
         earth.addChildNode(MoonAndEarthBarycentre)
         MoonAndEarthBarycentre.addChildNode(moon)
+        marsParent.addChildNode(mars)
     }
     
     
@@ -88,6 +129,11 @@ class ViewController: UIViewController {
         planet.geometry?.firstMaterial?.normal.contents = normal
         planet.position = position
         return planet
+    }
+    
+    func solarSystemCenter() -> SCNVector3 {
+        let solarSystemCenter = SCNVector3(0, 0, -2)
+        return solarSystemCenter
     }
     
     
