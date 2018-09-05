@@ -8,3 +8,7 @@ It's an idea for app for students at school, so that in an expanded reality they
 
 ![oursolarsystemscreens](https://user-images.githubusercontent.com/33023069/44814959-7511f280-abde-11e8-9671-dfebd1c16723.png)
 
+
+
+
+![alt-text](https://user-images.githubusercontent.com/33023069/45099529-cb73b980-b127-11e8-8a48-7eba7738fc87.gif)
